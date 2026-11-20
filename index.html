@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover Bulawayo - Experience Real Bulawayo. Matobo Hills, Khami Ruins. Book on WhatsApp 0776 725 302">
+    <title>Discover Bulawayo - Experience Real Bulawayo</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, sans-serif; background: #f2f2f2; color: #222; }
+
+        header.topbar {
+            background: #0E8A4D; color: white; padding: 12px 20px;
+            display: flex; align-items: center; gap: 15px;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .menu-btn {
+            background: #fff; color: #0E8A4D; border: none;
+            font-size: 26px; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-weight: bold;
+        }
+        .logo { font-size: 18px; font-weight: bold; color: white; }
+        .logo small { font-weight: normal; opacity: 0.9; font-size: 12px; display: block; }
+        .top-links { margin-left: auto; display: flex; gap: 18px; }
+        .top-links a { color: white; text-decoration: none; font-size: 14px; }
+        .top-book { background: #FF8C00; color: white !important; padding: 8px 14px; border-radius: 6px; font-weight: bold; }
+        @media (max-width: 700px){ .top-links { display: none; } }
+
+        .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 199; }
+        .overlay.show { display: block; }
+        .side-menu {
+            position: fixed; top:0; left:-340px; width: 320px; max-width: 90vw; height:100%;
+            background: #FFF8E1; z-index: 200; overflow-y:auto; transition: left 0.3s ease;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.3); padding-bottom: 30px;
+        }
+        .side-menu.open { left: 0; }
+        .menu-header {
+            background: linear-gradient(90deg, #0E8A4D, #FF8C00);
+            color: white; padding: 15px; display:flex; justify-content:space-between; align-items:center;
+            position: sticky; top:0;
+        }
+        .close-btn { background: black; color: white; border:none; font-size:20px; padding:5px 10px; border-radius:50%; cursor:pointer; }
+        .menu-welcome { padding:15px; background:white; margin:10px; border-radius:12px; border-left:5px solid #0E8A4D; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+        .menu-welcome b { color:#0E8A4D; }
+        .menu-welcome p { margin:5px 0 0; color:#555; font-size:14px; }
+        .menu-search { padding: 0 10px 10px; }
+        .menu-search input { width:100%; padding:12px; border:2px solid #FF8C00; border-radius:20px; font-size:15px; outline:none; }
+        .cat-pills { display:flex; flex-wrap:wrap; gap:8px; padding:0 10px; }
+        .pill { padding:8px 14px; border-radius:20px; color:white; font-size:13px; font-weight:bold; text-decoration:none; }
+        .pill-1{ background:#0E8A4D; } .pill-2{ background:#FF8C00; } .pill-3{ background:#25D366; } .pill-4{ background:#2196F3; } .pill-5{ background:#9C27B0; }
+        .menu-cat { padding:15px 15px 5px; font-weight:bold; color:#0E8A4D; }
+        .menu-links { list-style:none; margin:0 10px; padding:0; background:white; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+        .menu-links a { display:block; padding:12px 15px; text-decoration:none; color:black; border-bottom:1px solid #f0f0f0; }
+        .menu-links a span { float:right; color:#0E8A4D; font-weight:bold; }
+        .product { display:flex; gap:10px; align-items:center; padding:10px; margin:10px; background:white; border-radius:12px; text-decoration:none; color:black; box-shadow:0 2px 6px rgba(0,0,0,0.1); border-left:5px solid #FF8C00; }
+        .product img { width:65px; height:65px; object-fit:cover; border-radius:10px; }
+        .product-info { flex:1; min-width:0; }
+        .product-info b { display:block; font-size:15px; }
+        .product-info small { color:#777; }
+        .product-price { background:#0E8A4D; color:white; font-weight:bold; font-size:14px; padding:6px 10px; border-radius:20px; white-space:nowrap; }
+        .menu-book { display:block; background:#FF8C00; color:white; text-align:center; margin:15px 10px; padding:14px; border-radius:12px; text-decoration:none; font-weight:bold; font-size:17px; }
+        .menu-phone { text-align:center; color:#555; font-size:14px; line-height:1.6; }
+
+        .hero { background: #0E8A4D; color: white; text-align: center; padding: 45px 20px 40px; }
+        .hero h1 { margin: 0 0 8px 0; font-size: 32px; }
+        .hero p { margin: 0 auto 18px; max-width: 650px; font-size: 14px; opacity: 0.95; line-height: 1.6; }
+        .hero-btn { background: #FF8C00; color: white; text-decoration: none; padding: 12px 22px; border-radius: 6px; font-weight: bold; display: inline-block; font-size: 15px; }
+        .hero-stats { margin-top: 18px; font-size: 13px; opacity: 0.9; }
+
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+
+        .search-box { background: white; margin: 20px 0; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; gap: 10px; flex-wrap: wrap; }
+        .search-box select { flex: 1; min-width: 160px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; }
+        .search-btn { background: #0E8A4D; color: white; border: none; padding: 12px 22px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+        .section-title { text-align: center; font-size: 24px; margin: 25px 0 5px; }
+        .section-sub { text-align: center; color: #777; font-size: 14px; margin: 0 0 15px; }
+        .dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        @media (max-width: 700px){ .dest-grid { grid-template-columns: 1fr; } }
+        .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+        .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+        .card-body h3 { margin: 0 0 6px; font-size: 18px; }
+        .card-body p { color: #666; font-size: 14px; line-height: 1.6; margin: 0 0 10px; flex: 1; }
+        .price { font-weight: bold; color: #0E8A4D !important; font-size: 15px; }
+        .meta { font-size: 12px; color: #999; margin: 6px 0 12px; }
+        .card-btn { background: #FF8C00; color: white; text-align: center; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 14px; }
+
+        .video-box { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0; }
+        .video-box video { width: 100%; display: block; max-height: 380px; background: black; }
+        .video-box p { padding: 12px 15px; margin: 0; color: #666; font-size: 14px; }
+        .table-wrap { background: white; border-radius: 10px; overflow: hidden; overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #eee; padding: 12px; text-align: left; font-size: 15px; }
+        th { background: #0E8A4D; color: white; }
+        caption { font-weight: bold; font-size: 18px; padding: 12px; text-align: left; }
+
+        .plan-box { background: white; padding: 22px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 15px 0 25px; }
+        .plan-item { margin-bottom: 18px; }
+        .plan-item:last-child { margin-bottom: 0; }
+        .plan-item h3 { margin: 0 0 5px; font-size: 17px; }
+        .plan-item p { margin: 0; color: #555; font-size: 14px; line-height: 1.7; }
+
+        .guides-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 15px 0 25px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 700px){ .guides-grid { grid-template-columns: 1fr; } }
+        .guide-card { background: white; padding: 18px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+        .guide-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid #0E8A4D; }
+        .guide-card h3 { margin: 10px 0 4px; font-size: 17px; }
+        .guide-card p { color: #666; font-size: 14px; line-height: 1.6; margin: 0; }
+
+        .steps { background: white; padding: 18px 18px 18px 38px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0; }
+        .steps li { padding: 7px 0; font-weight: bold; }
+
+        .booking-box { background: white; padding: 22px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0; }
+        .booking-box h2 { margin: 0 0 10px; }
+        .booking-box label { font-weight: bold; font-size: 14px; display: block; margin-top: 12px; }
+        .booking-box input, .booking-box select, .booking-box textarea { width: 100%; padding: 12px; margin-top: 5px; font-size: 15px; border: 1px solid #ccc; border-radius: 6px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 700px){ .form-row { grid-template-columns: 1fr; } }
+        .radio-row, .check-row { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+        .radio-row input, .check-row input { width: auto; }
+        .radio-row label, .check-row label { margin: 0; font-weight: normal; }
+        .book-btn { background: #0E8A4D; color: white; border: none; padding: 14px; width: 100%; font-size: 17px; font-weight: bold; border-radius: 6px; margin-top: 16px; cursor: pointer; }
+
+        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; text-decoration: none; padding: 13px 18px; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 90; }
+        footer { background: #222; color: white; text-align: center; padding: 30px 15px 90px; margin-top: 20px; }
+        footer a { color: #FFD700; text-decoration: none; font-weight: bold; }
+        footer address { font-style: normal; line-height: 1.8; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <button class="menu-btn" onclick="openMenu()" aria-label="Open menu">☰</button>
+        <div class="logo">Discover Bulawayo<small>Experience Real Bulawayo</small></div>
+        <nav class="top-links">
+            <a href="#destinations">Destinations</a>
+            <a href="#plan">Plan Your Visit</a>
+            <a href="#booking">Book a Tour</a>
+            <a class="top-book" href="#booking">Book Now</a>
+        </nav>
+    </header>
+
+    <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+    <aside class="side-menu" id="sideMenu" aria-label="Products menu">
+        <div class="menu-header">
+            <b>🛍️ MENU</b>
+            <button class="close-btn" onclick="closeMenu()">✕</button>
+        </div>
+        <div class="menu-welcome"><b>Welcome to Bulawayo! 👋</b><p>Choose a tour below and book in 1 minute on WhatsApp.</p></div>
+        <div class="menu-search"><input type="text" id="menuSearch" placeholder="🔍 Search products..." onkeyup="filterProducts()"></div>
+        <div class="cat-pills">
+            <a class="pill pill-1" href="#destinations">Tours</a>
+            <a class="pill pill-2" href="#prices">Prices</a>
+            <a class="pill pill-3" href="#booking">Book</a>
+            <a class="pill pill-4" href="#">Food</a>
+            <a class="pill pill-5" href="#">Culture</a>
+        </div>
+        <div class="menu-cat">📂 Categories</div>
+        <ul class="menu-links">
+            <li><a href="#destinations">Things To Do <span>›</span></a></li>
+            <li><a href="#prices">Tour Prices <span>›</span></a></li>
+            <li><a href="#booking">Book a Tour <span>›</span></a></li>
+            <li><a href="#">Food &amp; Drink <span>›</span></a></li>
+            <li><a href="#">Culture <span>›</span></a></li>
+        </ul>
+        <div class="menu-cat">🛍️ Products / Tours</div>
+        <a class="product" href="https://wa.me/263776725302?text=Hi, I want Matobo Hills Tour - $45"><img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=200" alt="Matobo Hills"><div class="product-info"><b>Matobo Hills Tour</b><small>⭐ 4.9 • Full Day</small></div><div class="product-price">$45</div></a>
+        <a class="product" href="https://wa.me/263776725302?text=Hi, I want Khami Ruins Tour - $30"><img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=200" alt="Khami Ruins"><div class="product-info"><b>Khami Ruins Tour</b><small>⭐ 4.7 • Half Day</small></div><div class="product-price">$30</div></a>
+        <a class="product" href="https://wa.me/263776725302?text=Hi, I want Chipangali Tour - $20"><img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=200" alt="Chipangali"><div class="product-info"><b>Chipangali Wildlife</b><small>⭐ 4.8 • Half Day</small></div><div class="product-price">$20</div></a>
+        <a class="product" href="https://wa.me/263776725302?text=Hi, I want City Tour - $15"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200" alt="City Tour"><div class="product-info"><b>City Centre Tour</b><small>⭐ 4.8 • 3 Hours</small></div><div class="product-price">$15</div></a>
+        <a class="product" href="https://wa.me/263776725302?text=Hi, I want Food Tour - $30"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200" alt="Food Tour"><div class="product-info"><b>Bulawayo Food Tour</b><small>⭐ 5.0 • 4 Hours</small></div><div class="product-price">$30</div></a>
+        <a class="product" href="https://wa.me/263776725302?text=Hi, I want Game Drive - $50"><img src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=200" alt="Game Drive"><div class="product-info"><b>Game Drive Safari</b><small>⭐ 4.9 • Full Day</small></div><div class="product-price">$50</div></a>
+        <a class="menu-book" href="#booking" onclick="closeMenu()">📅 Book Now →</a>
+        <p class="menu-phone">📞 WhatsApp: 0776 725 302<br>📍 Bulawayo, Zimbabwe<br>🕐 Open Daily 8am - 6pm</p>
+    </aside>
+
+    <section class="hero">
+        <h1>Experience Real Bulawayo</h1>
+        <p>Community-led tours, local guides, real culture. Matobo Hills &amp; Khami Ruins.</p>
+        <a class="hero-btn" href="#booking">Book A Tour Now</a>
+        <div class="hero-stats">⭐ 4.9 Rated &nbsp; • &nbsp; 100+ Places &nbsp; • &nbsp; Local Guides</div>
+    </section>
+
+    <div class="wrap">
+        <div class="search-box">
+            <select><option>Choose Destination</option><option>Matobo Hills</option><option>Khami Ruins</option><option>Chipangali</option><option>City Centre</option></select>
+            <select><option>Choose Activity</option><option>Game Drive</option><option>Walking Tour</option><option>Museum Visit</option><option>Food Tour</option></select>
+            <button class="search-btn" type="button">🔍 32 TOURS</button>
+        </div>
+
+        <section id="destinations">
+            <h2 class="section-title">Our Destinations</h2>
+            <p class="section-sub">Pick your favourite - all led by local guides</p>
+            <div class="dest-grid">
+
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800" alt="Matobo Hills">
+                    <div class="card-body">
+                        <h3>⛰️ Matobo Hills</h3>
+                        <p>UNESCO Site. Rock art, rhino tracking, granite hills with local guides.</p>
+                        <p class="price">From $45 USD / person</p>
+                        <div class="meta">📍 35km from Bulawayo • 🕐 Full Day</div>
+                        <a class="card-btn" href="https://wa.me/263776725302?text=Hi, I want to book Matobo Hills - $45">Book Matobo</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=800" alt="Khami Ruins">
+                    <div class="card-body">
+                        <h3>🏛️ Khami Ruins</h3>
+                        <p>Ancient stone city, history tour with community storytellers.</p>
+                        <p class="price">From $30 USD / person</p>
+                        <div class="meta">📍 22km from Bulawayo • 🕐 Half Day</div>
+                        <a class="card-btn" href="https://wa.me/263776725302?text=Hi, I want to book Khami Ruins - $30">Book Khami</a>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800" alt="Chipangali">
+                    <div class="card-body">
+                        <h3>🦁 Chipangali Wildlife</h3>
+                        <p>Family friendly. Lions, leopards, see animals up close.</p>
+                        <p class="price">From $20 USD / person</p>
+                        <div class="meta">📍 Bulawayo • 🕐 Half Day</div>
+                        <a class="card-btn" href="https://wa.me/263776725302?text=Hi, I want to book Chipangali - $20">Book Chipangali</a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">⭐ More Top Places</h2>
+            <div class="dest-grid">
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800" alt="City Centre">
+                    <div class="card-body"><h3>🏙️ City Centre Tour</h3><p>City of Kings. Museums, markets, food tour.</p><p class="price">From $15 USD / person</p><div class="meta">📍 Bulawayo • 🕐 3 Hours</div><a class="card-btn" href="https://wa.me/263776725302?text=Hi, I want a City Tour - $15">Book City Tour</a></div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800" alt="Food Tour">
+                    <div class="card-body"><h3>🍲 Food Tour</h3><p>Taste sadza, braai, local snacks with local cooks.</p><p class="price">From $30 USD / person</p><div class="meta">📍 Bulawayo • 🕐 4 Hours</div><a class="card-btn" href="https://wa.me/263776725302?text=Hi, I want Food Tour - $30">Book Food Tour</a></div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=800" alt="Game Drive">
+                    <div class="card-body"><h3>🦒 Game Drive Safari</h3><p>Full day safari. Big 5, guides, picnic lunch.</p><p class="price">From $50 USD / person</p><div class="meta">📍 Near Bulawayo • 🕐 Full Day</div><a class="card-btn" href="https://wa.me/263776725302?text=Hi, I want Game Drive - $50">Book Safari</a></div>
+                </article>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🎥 Watch Matobo Hills</h2>
+            <div class="video-box">
+                <video controls poster="tour- Medium - HD 1080.mp4>" type="video/mp4">Your browser does not support video.</video>
+                <p>Matobo.</p>
+            </div>
+        </section>
+
+        <section id="prices">
+            <div class="table-wrap">
+                <table>
+                    <caption>💰 Tour Prices - 2026</caption>
+                    <thead><tr><th>Tour</th><th>Duration</th><th>Price</th></tr></thead>
+                    <tbody>
+                        <tr><td>Matobo Hills</td><td>Full Day</td><td>$45 USD</td></tr>
+                        <tr><td>Khami Ruins</td><td>Half Day</td><td>$30 USD</td></tr>
+                        <tr><td>Chipangali</td><td>Half Day</td><td>$20 USD</td></tr>
+                        <tr><td>City Centre Tour</td><td>3 Hours</td><td>$15 USD</td></tr>
+                        <tr><td>Food Tour</td><td>4 Hours</td><td>$30 USD</td></tr>
+                    </tbody>
+                    <tfoot><tr><td colspan="3">Kids under 5 go FREE • Transport included for Matobo</td></tr></tfoot>
+                </table>
+            </div>
+        </section>
+
+        <section id="plan">
+            <h2 class="section-title">Plan Your Visit</h2>
+            <p class="section-sub">Everything you need before you come</p>
+            <div class="plan-box">
+                <div class="plan-item">
+                    <h3>🛂 Visa</h3>
+                    <p>Many countries get Visa on Arrival. KAZA UniVisa (Zimbabwe + Zambia) costs <b>$50 USD cash</b>. Bring passport valid 2 months.</p>
+                </div>
+                <div class="plan-item">
+                    <h3>💵 Money</h3>
+                    <p>Prices are in USD. Bring small notes ($1, $5, $10). Community tours are cash / EcoCash. ATMs can be unreliable.</p>
+                </div>
+                <div class="plan-item">
+                    <h3>🚐 Transport</h3>
+                    <p>Matobo tour includes transport. Khami - $30 return. We arrange pick-up from your hotel in Bulawayo.</p>
+                </div>
+                <div class="plan-item">
+                    <h3>🛡️ Safety</h3>
+                    <p>Bulawayo tourist areas are generally safe. Travel with a local guide, keep valuables safe, respect local culture.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="guides">
+            <h2 class="section-title">Meet Our Local Guides</h2>
+            <p class="section-sub">Real people from Bulawayo, not big companies</p>
+            <div class="guides-grid">
+                <div class="guide-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" alt="Guide Tino">
+                    <h3>Tino - Matobo Guide</h3>
+                    <p>10 years guiding in Matobo. Knows every rock painting &amp; rhino trail. Speaks English &amp; Ndebele.</p>
+                </div>
+                <div class="guide-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" alt="Guide Nomsa">
+                    <h3>Nomsa - Khami &amp; Culture</h3>
+                    <p>Storyteller from Khami. Loves history, crafts &amp; showing visitors real village life.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">📝 How Booking Works</h2>
+            <ol class="steps">
+                <li>Tap ☰ on the left to see products</li>
+                <li>Choose your tour</li>
+                <li>Fill the booking form below</li>
+                <li>We reply on WhatsApp in minutes</li>
+            </ol>
+        </section>
+
+        <section class="booking-box" id="booking">
+            <h2>📅 Book Your Tour</h2>
+            <p>Fill this form — it will send to our WhatsApp 0776 725 302</p>
+            <form onsubmit="sendToWhatsApp(event)">
+                <div class="form-row">
+                    <div><label for="name">Your Name *</label><input type="text" id="name" placeholder="e.g. Tino Moyo" required></div>
+                    <div><label for="email">Your Email</label><input type="email" id="email" placeholder="e.g. tino@gmail.com"></div>
+                </div>
+                <label for="phone">Your Phone Number</label>
+                <input type="tel" id="phone" placeholder="e.g. 0776 123 456">
+                <label for="tour">Choose Tour *</label>
+                <select id="tour" required>
+                    <option value="">-- Select Tour --</option>
+                    <option>Matobo Hills Tour - $45 USD</option>
+                    <option>Khami Ruins Tour - $30 USD</option>
+                    <option>Chipangali Wildlife Tour - $20 USD</option>
+                    <option>Bulawayo City Centre Tour - $15 USD</option>
+                    <option>Bulawayo Food Tour - $30 USD</option>
+                    <option>Game Drive Safari - $50 USD</option>
+                </select>
+                <div class="form-row">
+                    <div><label for="date">Choose Date *</label><input type="date" id="date" required></div>
+                    <div><label for="people">How Many People?</label><select id="people"><option>1 Person</option><option>2 People</option><option>3 People</option><option>4 People</option><option>5+ People / Group</option></select></div>
+                </div>
+                <label>Need Transport?</label>
+                <div class="radio-row">
+                    <input type="radio" id="trans-yes" name="transport" value="Yes" checked><label for="trans-yes">Yes</label>
+                    <input type="radio" id="trans-no" name="transport" value="No"><label for="trans-no">No</label>
+                </div>
+                <div class="check-row"><input type="checkbox" id="agree" required><label for="agree">I agree to be contacted on WhatsApp</label></div>
+                <label for="message">Message (Optional)</label>
+                <textarea id="message" rows="3" placeholder="Anything we should know?"></textarea>
+                <button type="submit" class="book-btn">Send Booking on WhatsApp →</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <h3>🌎 DISCOVER BULAWAYO</h3>
+        <p>The City of Kings &amp; Queens</p>
+        <address>📞 Call / WhatsApp: <a href="tel:+263776725302">0776 725 302</a><br>📧 Email: <a href="mailto:hello@discoverbulawayo.co.zw">hello@discoverbulawayo.co.zw</a><br>📍 Bulawayo, Zimbabwe</address>
+        <p><small>© 2026 Discover Bulawayo. All rights reserved.</small></p>
+    </footer>
+
+    <a class="whatsapp-btn" href="https://wa.me/263776725302?text=Hi, I want to book a Bulawayo tour">💬 Book on WhatsApp</a>
+
+    <script>
+        function openMenu() {
+            document.getElementById("sideMenu").classList.add("open");
+            document.getElementById("overlay").classList.add("show");
+        }
+        function closeMenu() {
+            document.getElementById("sideMenu").classList.remove("open");
+            document.getElementById("overlay").classList.remove("show");
+        }
+        function filterProducts() {
+            var input = document.getElementById("menuSearch").value.toLowerCase();
+            var products = document.querySelectorAll(".product");
+            products.forEach(function(p) {
+                p.style.display = p.innerText.toLowerCase().includes(input) ? "flex" : "none";
+            });
+        }
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+            var tour = document.getElementById("tour").value;
+            var date = document.getElementById("date").value;
+            var people = document.getElementById("people").value;
+            var message = document.getElementById("message").value;
+            var transport = document.querySelector('input[name="transport"]:checked').value;
+            var text = "Hi Discover Bulawayo! I want to book:%0A%0A"
+                + "Name: " + name + "%0A"
+                + "Email: " + email + "%0A"
+                + "Phone: " + phone + "%0A"
+                + "Tour: " + tour + "%0A"
+                + "Date: " + date + "%0A"
+                + "People: " + people + "%0A"
+                + "Transport: " + transport + "%0A"
+                + "Message: " + message;
+            window.open("https://wa.me/263776725302?text=" + text, "_blank");
+        }
+    </script>
+
+</body>
+</html>
